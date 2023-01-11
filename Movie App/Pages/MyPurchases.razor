@@ -1,0 +1,58 @@
+@page "/my-purchases"
+@inject MovieAppData.MovieAppDataService movieAppDataService
+
+<div class="row-layout my-purchases-container">
+    <div class="column-layout group">
+        <h4 class="h4">
+            My Purchases
+        </h4>
+        <IgbList class="list" my-purchases-scope>
+            @foreach (var item in movieAppDataMyPurchases)
+            {
+                <IgbListItem>
+                    <div>
+                        <div class="row-layout group_1">
+                            <img src="@item.MoviePoster" class="image" />
+                            <div class="row-layout group_2">
+                                <div class="row-layout group_3">
+                                    <div class="column-layout group_4">
+                                        <h6 class="h6">
+                                            @item.Name
+                                        </h6>
+                                        <a class="typography__body-2 hyperlink">
+                                            @item.Theatre
+                                        </a>
+                                    </div>
+                                    <div class="column-layout group_5">
+                                        <p class="typography__body-2 text">
+                                            Purchased
+                                        </p>
+                                        <p class="typography__body-2 text_1">
+                                            @item.Purchased
+                                        </p>
+                                    </div>
+                                </div>
+                                <IgbButton class="button" my-purchases-scope>
+                                    <span class="material-icons">
+                                        cloud_download
+                                    </span>
+                                    <span>Get Tickets</span>
+                                    <IgbRipple></IgbRipple>
+                                </IgbButton>
+                            </div>
+                        </div>
+                    </div>
+                </IgbListItem>
+            }
+        </IgbList>
+    </div>
+</div>
+
+@code {
+    private MovieAppData.MyPurchasesType[] movieAppDataMyPurchases = Array.Empty<MovieAppData.MyPurchasesType>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        movieAppDataMyPurchases = await this.movieAppDataService.GetMyPurchases() ?? movieAppDataMyPurchases;
+    }
+}
